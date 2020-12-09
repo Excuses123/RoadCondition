@@ -1,7 +1,7 @@
 import time, os
 import pandas as pd
 import tensorflow as tf
-from model.deepCNN import DeepCNN
+from src.Excuses.DeepCNN import DeepCNN
 from numpy.random import seed
 
 seed(41)
@@ -87,8 +87,8 @@ def train(args):
                 print("End of dataset")
                 break
         end_time = time.time()
-        print("train model use time: %d sec" % (end_time - start_time))
-        model.save(sess, args.save_path + 'model.ckpt', global_step=model.global_step.eval())
+        print("train model2 use time: %d sec" % (end_time - start_time))
+        model.save(sess, args.save_path + 'model2.ckpt', global_step=model.global_step.eval())
 
 
 def test(args):
