@@ -43,7 +43,7 @@ class DeepCNN(object):
     def build_model(self):
 
         if self.args.fine_tune:
-            self.embedding_link = tf.Variable(self.__load_w2v('./output/w2v/topo_emb.txt', self.args.embedding_size),
+            self.embedding_link = tf.Variable(self.__load_w2v(self.args.emb_path, self.args.embedding_size),
                                               dtype=tf.float32, name='link_id_w')
         else:
             self.embedding_link = tf.Variable(

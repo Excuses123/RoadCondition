@@ -1,7 +1,10 @@
 import time, os
+import pickle
 import pandas as pd
 import tensorflow as tf
-from src.Excuses.DeepCNN import DeepCNN
+from argparse import ArgumentParser
+from .DeepCNN import DeepCNN
+from .config import Args
 from numpy.random import seed
 
 seed(41)
@@ -14,11 +17,8 @@ gpu_config.gpu_options.allow_growth = True
 # 设置显存比例
 gpu_config.gpu_options.per_process_gpu_memory_fraction = 0.4
 
-import pickle
-
-with open("./data/topo/ind2link.pkl", "rb") as f:
-    ind2link = pickle.load(f)
-
+with open("./data/user_data/Excuses/linkids.pkl", "rb") as f:
+    linkids = pickle.load(f)
 
 def parser(record):
     read_dict = {
@@ -48,7 +48,7 @@ def parser(record):
 
 
 def inputs(args, flag):
-    filenames = [os.path.join(args.data_path, i) for i in sorted(os.listdir(args.data_path))[1:]]  # 4- 480
+    filenames = [os.path.join(args.data_path, i) for i in sorted(os.listdir(args.data_path))[1:]]
     print(filenames)
     if flag == 'train':
         dataset = tf.data.TFRecordDataset(filenames[:-1])
@@ -88,14 +88,19 @@ def train(args):
                 break
         end_time = time.time()
         print("train model2 use time: %d sec" % (end_time - start_time))
-        model.save(sess, args.save_path + 'model2.ckpt', global_step=model.global_step.eval())
+        model.save(sess, args.save_path + '/model.ckpt', global_step=model.global_step.eval())
+        if args.save_emb:
+            emb = sess.run(model.embedding_link)
+            data = pd.DataFrame(emb).reset_index().rename(columns={'index': 'linkid'})
+            print(data.head())
+            data.to_csv(os.path.join(args.save_path, "embedding_linkid.txt"), header=None, index=None, sep=",")
 
 
 def test(args):
     args.fine_tune = False
     print("test................")
     tf.reset_default_graph()
-    out_file = args.save_path + "test_result.txt"
+    out_file = args.save_path + "/test_result.txt"
     with tf.Session() as sess:
         batch_x = inputs(args, 'test')
         model = DeepCNN(args, batch_x, keep_prob=1.0, flag='test')
@@ -131,11 +136,7 @@ def pred(args):
         result = {'link': [],
                   'current_slice_id': [],
                   'future_slice_id': [],
-                  'label': [],
-                  'label1_prob': [],
-                  'label2_prob': [],
-                  'label3_prob': [],
-                  'label4_prob': []
+                  'label': []
                   }
         while True:
             try:
@@ -144,47 +145,41 @@ def pred(args):
                 result['current_slice_id'].extend(output['current_slice_id'])
                 result['future_slice_id'].extend(output['future_slice_id'])
                 result['label'].extend(output['label'])
-                result['label1_prob'].extend(output['prob'][:, 0])
-                result['label2_prob'].extend(output['prob'][:, 1])
-                result['label3_prob'].extend(output['prob'][:, 2])
-                result['label4_prob'].extend(output['prob'][:, 3])
             except tf.errors.OutOfRangeError:
                 print("End of dataset")
                 break
         end_time = time.time()
         print("test use time: %d sec" % (end_time - start_time))
         result = pd.DataFrame(result)
-        linkids = pd.read_csv("./data/test_linkids.txt", header=None)
         # result['label'] = result['label'].map(lambda x: 3 if x > 3 else x)  评测会自动处理
-        result['link'] = result['link'].map(lambda x: ind2link.get(x, 0))  # linkids[0]
-        result.to_csv(args.save_path + "20190801.csv", index=None)
+        # result['link'] = result['link'].map(lambda x: ind2link.get(x, 0))  # linkids[0]
+        result.to_csv(args.save_path + "/result.csv", index=None)
 
+def parse_command_params():
+    args = Args()
 
-class Args():
-    data_path = "./data/data/"
-    save_path = "./output/cnn_495/"
+    ap = ArgumentParser()
+    ap.add_argument('-user_path', default="./data/user_data/Excuses", type=str, help='user out path')
+    ap.add_argument('-is_train', default=0, type=int, help='is train')
+    ap.add_argument('-is_test', default=0, type=int, help='is test')
+    ap.add_argument('-is_pred', default=0, type=int, help='is pred')
+    ap.add_argument('-save_emb', default=0, type=int, help='is save emb')
+    args_ = vars(ap.parse_args())
 
-    fine_tune = True
+    args.vocab_size = len(linkids) + 1
+    args.data_path = os.path.join(args_['user_path'], 'traindata')
+    args.save_path = os.path.join(args_['user_path'], 'output')
+    args.emb_path = os.path.join(args_['user_path'], 'w2v/topo_emb.txt')
+    args.is_train = args_['is_train']
+    args.is_test = args_['is_test']
+    args.is_pred = args_['is_pred']
+    args.save_emb = args_['save_emb']
 
-    epoch = 10
-    num_class = 4
-    batch_size = 1024
-    learning_rate = 0.0002
-    embedding_size = 64
-    vocab_size = 684813 + 1
-
-    filterSizes = [1, 2, 3]
-    numFilters = 96
-    seq_len = 5
-
-    is_train = False
-    is_test = False
-    is_pred = True
-
+    return args
 
 if __name__ == '__main__':
 
-    args = Args()
+    args = parse_command_params()
 
     if args.is_train:
         train(args)
