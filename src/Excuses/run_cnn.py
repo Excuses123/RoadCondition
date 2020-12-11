@@ -3,8 +3,8 @@ import pickle
 import pandas as pd
 import tensorflow as tf
 from argparse import ArgumentParser
-from src.Excuses.DeepCNN import DeepCNN
-from src.Excuses.config import Args
+from .DeepCNN import DeepCNN
+from .config import Args
 from numpy.random import seed
 
 seed(41)
@@ -169,6 +169,7 @@ def parse_command_params():
     args.vocab_size = len(linkids) + 1
     args.data_path = os.path.join(args_['user_path'], 'traindata')
     args.save_path = os.path.join(args_['user_path'], 'output')
+    args.emb_path = os.path.join(args_['user_path'], 'w2v/topo_emb.txt')
     args.is_train = args_['is_train']
     args.is_test = args_['is_test']
     args.is_pred = args_['is_pred']
