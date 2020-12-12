@@ -164,7 +164,7 @@ def parse_command_params():
     ap.add_argument('-save_emb', default=0, type=int, help='is save emb')
     args_ = vars(ap.parse_args())
 
-    args.vocab_size = len(linkids) + 1
+    args.vocab_size = len(linkids)
     args.data_path = os.path.join(args_['user_path'], 'traindata')
     args.save_path = os.path.join(args_['user_path'], 'output')
     args.emb_path = os.path.join(args_['user_path'], 'w2v/topo_emb.txt')
