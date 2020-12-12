@@ -121,7 +121,7 @@ if __name__ == '__main__':
     if not os.path.exists(savePath):
         os.makedirs(savePath)
 
-    train_files = sorted(os.listdir("./data/row_data/traffic"))[-13:]
+    train_files = sorted(os.listdir("./data/row_data/traffic"))[-14:]
     for file in train_files:
         save2TFrecord("./data/row_data/traffic", savePath, file)
 

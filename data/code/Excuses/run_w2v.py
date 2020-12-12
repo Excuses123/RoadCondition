@@ -39,7 +39,7 @@ if __name__ == '__main__':
     fr.close()
     fw.close()
 
-    model = Word2Vec(LineSentence(os.path.join(args['user_path'], 'topo_w2v_train.txt')), alpha=0.03, size=64, window=3, min_count=2, sg=1, hs=1, workers=multiprocessing.cpu_count())
+    model = Word2Vec(LineSentence(os.path.join(args['user_path'], 'topo_w2v_train.txt')), alpha=0.02, size=64, window=3, min_count=2, sg=1, hs=1, workers=multiprocessing.cpu_count())
     model.save(os.path.join(args['user_path'], 'w2v/topo.model'))
 
     data = pd.concat([pd.DataFrame(model.wv.index2word, columns=['linkid'], dtype=int), pd.DataFrame(model.wv.vectors)], axis=1)
