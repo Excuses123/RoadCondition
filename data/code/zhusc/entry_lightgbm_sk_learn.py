@@ -18,6 +18,7 @@ from scipy.special import softmax
 from scipy.optimize import minimize
 from functools import partial
 import feature_engineer_all as fea
+import sys
 
 
 def init_pandas_show():
@@ -2089,7 +2090,7 @@ def train_by_light_gbm_with_second_model_with_balanced_distribution(_dir_path, t
 
     n_class = 3
     model = lgb.LGBMClassifier(
-        learning_rate=0.05,
+        learning_rate=LEARNNING_RATE,
         boosting_type='gbdt',
         objective='multiclass',
         num_leaves=31,
@@ -2381,6 +2382,14 @@ if __name__ == '__main__':
     MODE = 'PRD';
     # MODE = 'PARAMS';
     print('MODE =', MODE)
+
+    param_num = len(sys.argv)
+    print('param_num =', param_num)
+    if param_num != 1:
+        LEARNNING_RATE = float(sys.argv[1]);
+    else:
+        LEARNNING_RATE = 0.05;
+    print('learnning_rate =', LEARNNING_RATE);
 
     # 是线下、还是线上的运行版本
     MODE_OFFLINE = True;
