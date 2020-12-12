@@ -13,7 +13,8 @@ def init():
         data_dir = 'F:/DeskRoot/learn/df/didichuxing_lukuangyuce/20201015181036traffic-fix/data/'
     else:
         # 相对于code所在路径的上一级; data\code\zhusc
-        data_dir = '../../';
+        # data_dir = '../../';
+        data_dir = '/data/';
 
     # 原始文件路径
     raw_dir = data_dir + 'raw_data/'
@@ -32,7 +33,7 @@ def init():
         os.makedirs(result_path)
 
     handle_file_list = ['20190704.txt', '20190711.txt', '20190718.txt', '20190725.txt', '20190726.txt',
-                        '20190730.txt', '20190801_testdata.txt'];
+                       '20190730.txt', '20190801_testdata.txt'];
     # handle_file_list = ['20190704.txt'];
 
     path_dict = {'raw_dir': raw_dir,
@@ -329,7 +330,7 @@ def handle_one_day_road_data(data_path, attr_df, file_name, hd1_path_root):
     :param attr_df: 路段的属性集合
     :return:
     """
-    print(data_path + ', 预处理开始...');
+    print(data_path + ', prehandle is starting ...');
 
     # 整体读取成仅有一列的df
     current_history_lukuang = pd.read_csv(data_path, sep='\t', header=None);
@@ -339,7 +340,7 @@ def handle_one_day_road_data(data_path, attr_df, file_name, hd1_path_root):
     save_path = hd1_path_root + file_name + '_hd1';
     print('save_path =', save_path)
     split_2_struct_data_02(current_history_lukuang, attr_df, save_path);
-    print(data_path + ', 预处理完毕...');
+    print(data_path + ', prehandle is end ...');
 
 
 def handle_all_data(attr_df):
@@ -382,7 +383,7 @@ def raw_2_hd1():
     for file_name in handle_file_name_list:
         # data/raw_data/traffic
         data_path = raw_dir + 'traffic/' + file_name;
-        print('raw_2_hd1 正在处理', data_path)
+        print('raw_2_hd1 is handling ', data_path)
         handle_one_day_road_data(data_path, attr_df, file_name, hd1_path_root)
 
 
@@ -448,7 +449,7 @@ def handle_one_day_road_data_hd1_2_hd4(data_path, save_path):
     :return:
     """
 
-    print('hd1_2_hd4 正在处理', data_path);
+    print('hd1_2_hd4 is handling ', data_path);
     hd1_df = pd.read_csv(data_path);
 
     row_num = hd1_df.shape[0];
@@ -523,7 +524,7 @@ def handle_one_day_road_data_hd4_2_hd6(file_path, embedding_path, save_path):
     # tp_path = 'F:/DeskRoot/learn/df/didichuxing_lukuangyuce/20201015181036traffic-fix/embedding_495.txt'
     tp_path = embedding_path;
 
-    print('hd4_2_hd6， file_path= ', file_path);
+    print('hd4_2_hd6, file_path=', file_path);
 
     hd4_df = pd.read_csv(file_path);
     tp_df = pd.read_csv(tp_path);
@@ -548,7 +549,7 @@ def handle_one_day_road_data_hd4_2_hd6(file_path, embedding_path, save_path):
 
 
 def hd4_2_hd6():
-    print('start hd4_2_hd6 ...... ')
+    print('start hd4_2_hd6......')
     path_dict = init();
     embedding_path = path_dict['embedding_path'];
     my_save_dir = path_dict['my_save_dir'];
@@ -581,7 +582,6 @@ if __name__ == '__main__':
     starttime = datetime.datetime.now()
 
     # 是开发测试、还是真实全量数据运行
-    # 'DEV',  'PRD'
     # MODE = 'DEV';
     # MODE = 'PRD';
 
@@ -590,12 +590,12 @@ if __name__ == '__main__':
     print('MODE =', MODE);
 
     # 预处理过程，一批处理数据的条数
-    # BATCH_SIZE = 200000;
     if MODE == 'FX':
         BATCH_SIZE = 60000;
+    else:
+        BATCH_SIZE = 20000;
 
-    # 修改init函数中的路径信息
-    # init();
+    # 修改init函数中的路径信息 init();
 
     raw_2_hd1();
     hd1_2_hd4();
