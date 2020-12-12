@@ -17,7 +17,7 @@ CUDNN Version: 7.6.3
 
 1. word2vec预训练得到linkid embedding
 2. deepcnn模型finetune输出最终embedding
-3. lightgbm人工特征工程+emdedding得到预测结果
+3. 训练lightgbm模型(人工特征工程+emdedding)得到预测结果
 4. 基于训练数据的权重微调得到最终结果
 
 #### 使用说明
