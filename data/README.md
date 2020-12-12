@@ -18,8 +18,16 @@ CUDNN Version: 7.6.3
     |-- data
         |-- raw_data
            | traffic
+                |  20190701.txt
+                |  20190702.txt
+                |  ...
+                |  20190801_testdata.txt                            
            | attr.txt
            | topo.txt
+    
+其中，traffic是个文件夹，内部放置所有的训练集与测试集数据。<br/>
+attr.txt是道路属性文件，原始文件名称为20201012150828attr.txt。<br/>
+topo.txt是道路拓扑关系文件，原始文件名称为20201012151101topo.txt。<br/>
        
 
 #### 总体流程
