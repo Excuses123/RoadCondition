@@ -16,3 +16,10 @@ python ./data/code/Excuses/run_cnn.py -user_path="./data/user_data/Excuses" -is_
 endtime=`date +'%Y-%m-%d %H:%M:%S'`
 end_seconds=$(date --date="$endtime" +%s);
 echo "Excuses本次运行时间： "$((end_seconds-start_seconds))"s"
+
+
+# 数据预处理的脚本
+python -u ./data/code/zhusc/feature_engineer_all.py
+
+# lightGBM模型训练与预测结果输出
+python -u ./data/code/zhusc/entry_lightgbm_sk_learn.py
