@@ -4,7 +4,7 @@ starttime=`date +'%Y-%m-%d %H:%M:%S'`
 start_seconds=$(date --date="$starttime" +%s);
 
 #执行程序
-#linkid映射及word2vec训练
+#word2vec训练
 python ./src/Excuses/run_w2v.py -user_path="./data/user_data/Excuses"
 
 #tfrecords训练数据生成
