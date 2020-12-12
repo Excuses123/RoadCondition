@@ -10,12 +10,10 @@ from numpy.random import seed
 seed(41)
 tf.set_random_seed(42)
 
-os.environ['CUDA_VISIBLE_DEVICES'] = "3"
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 gpu_config = tf.ConfigProto()
 gpu_config.gpu_options.allow_growth = True
-# 设置显存比例
-gpu_config.gpu_options.per_process_gpu_memory_fraction = 0.4
 
 with open("./data/user_data/Excuses/linkids.pkl", "rb") as f:
     linkids = pickle.load(f)
@@ -69,7 +67,7 @@ def train(args):
     print("training.............")
     with tf.Session() as sess:
         batch_x = inputs(args, 'train')
-        model = DeepCNN(args, batch_x, keep_prob=0.85, flag='train')
+        model = DeepCNN(args, batch_x, keep_prob=0.8, flag='train')
         sess.run(tf.global_variables_initializer())
         summary_op = tf.summary.merge_all()
         train_writer = tf.summary.FileWriter(args.save_path, sess.graph)
