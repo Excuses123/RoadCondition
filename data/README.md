@@ -7,11 +7,13 @@
 
 #### 项目依赖
 
-python: 3
-tensorflow-gpu: 1.14
+操作系统: ubuntu <br/>
+python: 3 <br/>
+tensorflow-gpu: 1.14 <br/>
 
-CUDA Version: 10.0.130
-CUDNN Version: 7.6.3
+CUDA Version: 10.0.130 <br/>
+CUDNN Version: 7.6.3 <br/>
+lightgbm Version: 3.0.0 <br/>
 
 #### 比赛数据及文件名
 
