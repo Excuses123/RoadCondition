@@ -24,6 +24,9 @@ CUDNN Version: 7.6.3
 
 1.  sh ./image/run.sh
 
+#### ligthGBM模型训练可能出现的问题
+
+
 #### 参与贡献
 
 1.  https://gitee.com/Excuses-j
