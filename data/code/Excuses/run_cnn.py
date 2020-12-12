@@ -3,8 +3,8 @@ import pickle
 import pandas as pd
 import tensorflow as tf
 from argparse import ArgumentParser
-from .DeepCNN import DeepCNN
-from .config import Args
+from DeepCNN import DeepCNN
+from config import Args
 from numpy.random import seed
 
 seed(41)
