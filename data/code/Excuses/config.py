@@ -1,8 +1,8 @@
 
 class Args:
-    data_path = "./data/user_data/Excuses/traindata/"
-    save_path = "./data/user_data/Excuses/output/"
-    emb_path = './data/user_data/Excuses/w2v/topo_emb.txt'
+    data_path = "/data/user_data/Excuses/traindata/"
+    save_path = "/data/user_data/Excuses/output/"
+    emb_path = '/data/user_data/Excuses/w2v/topo_emb.txt'
 
     fine_tune = True
 

@@ -15,7 +15,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 gpu_config = tf.ConfigProto()
 gpu_config.gpu_options.allow_growth = True
 
-with open("./data/user_data/Excuses/linkids.pkl", "rb") as f:
+with open("/data/user_data/Excuses/linkids.pkl", "rb") as f:
     linkids = pickle.load(f)
 
 def parser(record):
@@ -157,7 +157,7 @@ def parse_command_params():
     args = Args()
 
     ap = ArgumentParser()
-    ap.add_argument('-user_path', default="./data/user_data/Excuses", type=str, help='user out path')
+    ap.add_argument('-user_path', default="/data/user_data/Excuses", type=str, help='user out path')
     ap.add_argument('-is_train', default=0, type=int, help='is train')
     ap.add_argument('-is_test', default=0, type=int, help='is test')
     ap.add_argument('-is_pred', default=0, type=int, help='is pred')

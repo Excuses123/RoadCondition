@@ -10,7 +10,7 @@ from argparse import ArgumentParser
 
 def parse_command_params():
     ap = ArgumentParser()
-    ap.add_argument('-user_path', default="./data/user_data/Excuses", type=str, help='user out path')
+    ap.add_argument('-user_path', default="/data/user_data/Excuses", type=str, help='user out path')
     args = vars(ap.parse_args())
 
     return args
@@ -101,7 +101,7 @@ if __name__ == '__main__':
 
     args = parse_command_params()
 
-    attr = pd.read_csv('./data/row_data/attr.txt', sep='\t', names=['linkid', 'length', 'direction', 'pathclass', 'speedclass', 'LaneNum', 'speedlimit', 'level', 'width'])
+    attr = pd.read_csv('/data/row_data/attr.txt', sep='\t', names=['linkid', 'length', 'direction', 'pathclass', 'speedclass', 'LaneNum', 'speedlimit', 'level', 'width'])
 
     num_cols = ['length', 'speedlimit', 'width']
     cate_cols = ['direction', 'pathclass', 'speedclass', 'LaneNum', 'level']
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     attr_num = dict(zip(attr.linkid.tolist(), attr[num_cols].values.tolist()))
     attr_cate = dict(zip(attr.linkid.tolist(), attr[cate_cols].values.tolist()))
 
-    topo = pd.read_csv('./data/row_data/topo.txt', sep='\t', names=['linkid', 'links'])
+    topo = pd.read_csv('/data/row_data/topo.txt', sep='\t', names=['linkid', 'links'])
     topo['links'] = topo['links'].map(lambda x: [int(i) for i in x.split(",")])
     topo = dict(topo.values)
 
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     if not os.path.exists(savePath):
         os.makedirs(savePath)
 
-    train_files = sorted(os.listdir("./data/row_data/traffic"))[-14:]
+    train_files = sorted(os.listdir("/data/row_data/traffic"))[-14:]
     for file in train_files:
-        save2TFrecord("./data/row_data/traffic", savePath, file)
+        save2TFrecord("/data/row_data/traffic", savePath, file)
 

@@ -9,7 +9,7 @@ from gensim.models.word2vec import LineSentence
 
 def parse_command_params():
     ap = ArgumentParser()
-    ap.add_argument('-user_path', default="./data/user_data/Excuses", type=str, help='user out path')
+    ap.add_argument('-user_path', default="/data/user_data/Excuses", type=str, help='user out path')
     args = vars(ap.parse_args())
 
     return args
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         os.makedirs(args['user_path'])
         os.makedirs(os.path.join(args['user_path'], 'w2v'))
 
-    attr = pd.read_csv('./data/row_data/attr.txt', sep='\t', names=['linkid', 'length', 'direction', 'pathclass', 'speedclass', 'LaneNum', 'speedlimit', 'level', 'width'])
+    attr = pd.read_csv('/data/row_data/attr.txt', sep='\t', names=['linkid', 'length', 'direction', 'pathclass', 'speedclass', 'LaneNum', 'speedlimit', 'level', 'width'])
     linkids = sorted(list(attr.linkid))
 
     with open(os.path.join(args['user_path'], 'linkids.pkl'), 'wb') as fw:
@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     #训练word2vec
     fw = open(os.path.join(args['user_path'], 'topo_w2v_train.txt'), 'w')
-    with open("./data/row_data/topo.txt", 'r') as fr:
+    with open("/data/row_data/topo.txt", 'r') as fr:
         lines = fr.readlines()
         for line in tqdm(lines):
             line = line.replace('\t', ' ').replace(',', ' ')
