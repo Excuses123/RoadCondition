@@ -354,7 +354,7 @@ def basic_001():
 
     submission_df.to_csv('submission.csv', index=False);
     endtime = datetime.datetime.now();
-    print('总运行时间:' + str((endtime - starttime).seconds));
+    print('total run time:' + str((endtime - starttime).seconds));
 
 
 # def xgbt_model():
@@ -611,7 +611,7 @@ def f1_score_eval_final_test(preds, valid_df):
     for class_type_idx, class_type in enumerate(class_type_np):
         f1_score_val = f1_score_val + weight_arr[int(class_type)] * f1_score_arr[class_type_idx];
 
-    print('下面打印分类报告......');
+    print('next print prediction class report ......');
     # target_names = ['class 0', 'class 1', 'class 2', 'class 3', 'class 4']
     target_names = ['class 1', 'class 2', 'class 3'];
     # if (labels == 0).sum() != 0:
@@ -1328,7 +1328,7 @@ def train_by_light_gbm_by_one_day_with_second_model_offline_base(train_file_name
     y_train_pred_prob = model.predict_proba(X_train, num_iteration=model.best_iteration_)
 
     final_test_f1_score = f1_score_eval_final_test_sk(y_test, y_test_pred);
-    print('针对评估函数优化前的final_test_f1_score =', final_test_f1_score);
+    print('before optimize metric function, final_test_f1_score =', final_test_f1_score);
     del y_test_pred;
 
     # 针对评估函数，进行优化;
@@ -1349,9 +1349,9 @@ def train_by_light_gbm_by_one_day_with_second_model_offline_base(train_file_name
     rescale_y_test_pred = np.argmax(y_test_pred_prob * rescale_weight_np, axis=1)
 
     rescale_final_test_f1_score = f1_score_eval_final_test_sk(y_test, rescale_y_test_pred);
-    print('针对评估函数优化后的final_test_f1_score =', rescale_final_test_f1_score);
+    print('after optimize metric function, final_test_f1_score =', rescale_final_test_f1_score);
 
-    logging.info('训练完毕');
+    logging.info('train is end ... ');
     return model, rescale_weight
 
 
@@ -1434,7 +1434,7 @@ def train_by_light_gbm_by_one_day_with_second_model_with_same_week_online_base()
     y_train_pred_prob = model.predict_proba(X_train, num_iteration=model.best_iteration_)
 
     final_test_f1_score = f1_score_eval_final_test_sk(y_test, y_test_pred);
-    print('针对评估函数优化前的final_test_f1_score =', final_test_f1_score);
+    print('before optimize metric function, final_test_f1_score =', final_test_f1_score);
     del y_test_pred;
 
     # 针对评估函数，进行优化;
@@ -1455,9 +1455,9 @@ def train_by_light_gbm_by_one_day_with_second_model_with_same_week_online_base()
     rescale_y_test_pred = np.argmax(y_test_pred_prob * rescale_weight_np, axis=1)
 
     rescale_final_test_f1_score = f1_score_eval_final_test_sk(y_test, rescale_y_test_pred);
-    print('针对评估函数优化后的final_test_f1_score =', rescale_final_test_f1_score);
+    print('after optimize metirc function, final_test_f1_score =', rescale_final_test_f1_score);
 
-    logging.info('训练完毕');
+    logging.info('trian is end ... ');
     return model, rescale_weight
 
 
@@ -1560,10 +1560,10 @@ def train_by_light_gbm_by_one_day_02_adjust_params():
     gsearch.fit(X_train, y_train, eval_set=[(X_train, y_train), (X_test, y_test)], verbose=10,
                 early_stopping_rounds=10, eval_metric=f1_score_eval_sk)
 
-    print('参数的最佳取值:{0}'.format(gsearch.best_params_))
-    print('最佳模型得分:{0}'.format(gsearch.best_score_))
-    print(gsearch.cv_results_['mean_test_score'])
-    print(gsearch.cv_results_['params'])
+    # print('参数的最佳取值:{0}'.format(gsearch.best_params_))
+    # print('最佳模型得分:{0}'.format(gsearch.best_score_))
+    # print(gsearch.cv_results_['mean_test_score'])
+    # print(gsearch.cv_results_['params'])
 
     # 在提交测试集上预测
     # 对测试集进行预测
@@ -2333,6 +2333,9 @@ def train_by_light_gbm_entry_02_with_second_model_offline_entry_v03():
             '20190725.txt_hd1_hd4_hd6',
             '20190726.txt_hd1_hd4_hd6'
         ]
+        # train_file_name_list = [
+        #     '20190704.txt_hd1_hd4_hd6'
+        # ]
 
     print('train_file_name_list =', train_file_name_list);
     train_by_light_gbm_with_second_model_with_balanced_distribution(_dir_path, train_file_name_list, test_file_name,
@@ -2347,7 +2350,7 @@ def handle_one_day_road_data(data_path, attr_df):
     :param attr_df: 路段的属性集合
     :return:
     """
-    print(data_path + ', 预处理开始...');
+    print(data_path + ', prehandle is start...');
 
     # 整体读取成仅有一列的df
     current_history_lukuang = pd.read_csv(data_path, sep='\t', header=None);
@@ -2355,7 +2358,7 @@ def handle_one_day_road_data(data_path, attr_df):
     print(current_history_lukuang.shape)
 
     split_2_struct_data_02(current_history_lukuang, attr_df, data_path + '_fp1');
-    print(data_path + ', 预处理完毕...');
+    print(data_path + ', prehandle end ...');
 
 
 def handle_all_data(attr_df):
@@ -2369,12 +2372,11 @@ def handle_all_data(attr_df):
             handle_one_day_road_data(data_path, attr_df)
 
 
-# MODE = 'PRD';
+MODE = 'PRD';
 if __name__ == '__main__':
     starttime = datetime.datetime.now()
 
     # 是开发测试、还是真实全量数据运行
-    # 'DEV',  'PRD'
     # MODE = 'DEV';
     MODE = 'PRD';
     # MODE = 'PARAMS';
