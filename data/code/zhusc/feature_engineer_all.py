@@ -9,12 +9,14 @@ import logging
 
 def init():
     # 文件data路径
-    if MODE == 'DEV' or MODE == 'PRD':
-        data_dir = 'F:/DeskRoot/learn/df/didichuxing_lukuangyuce/20201015181036traffic-fix/data/'
-    else:
-        # 相对于code所在路径的上一级; data\code\zhusc
-        # data_dir = '../../';
-        data_dir = '/data/';
+    # if MODE == 'DEV' or MODE == 'PRD':
+    #     data_dir = 'F:/DeskRoot/learn/df/didichuxing_lukuangyuce/20201015181036traffic-fix/data/'
+    # else:
+    #     # 相对于code所在路径的上一级; data\code\zhusc
+    #     # data_dir = '../../';
+    #     data_dir = '/data/';
+
+    data_dir = '/data/data/';
 
     # 原始文件路径
     raw_dir = data_dir + 'raw_data/'
